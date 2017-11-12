@@ -10,16 +10,36 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var playerOneLabel: UILabel!
+    @IBOutlet weak var playerTwoLabel: UILabel!
+    @IBOutlet weak var nameTextField: UITextField!
+    var playersEntered = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        nameTextField.becomeFirstResponder()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destination = segue.destination as! BeginViewController
+        destination.playerOne = playerOneLabel.text!
+        destination.playerTwo = playerTwoLabel.text!
     }
-
+    
+    @IBAction func doneKeyPressed(_ sender: UITextField) {
+        
+        if playersEntered == 0 {
+            playerOneLabel.text = "Player 1: " + nameTextField.text!
+            playersEntered += 1
+            nameTextField.text = ""
+        } else {
+            playerTwoLabel.text = "Player 2:" + nameTextField.text!
+            nameTextField.text = ""
+            performSegue(withIdentifier: "BeginSegue", sender: nil)
+        }
+        
+    }
+    
 
 }
 
